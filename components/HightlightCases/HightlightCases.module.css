@@ -1,0 +1,28 @@
+.cardCases__recovered,
+.cardCases__death,
+.cardCases__cases {
+  padding: 2rem 0;
+  background-color: #1976d2 !important;
+  /* box-shadow: inset 0 0 0 10px rgba(0, 0, 0, .1) !important; */
+  /* border: 5px solid white !important; */
+}
+
+.cardCases__recovered {
+  background-color: #689f38 !important;
+}
+
+.cardCases__death {
+  background-color: #d32f2f !important;
+}
+
+.cardCases__title,
+.cardCases__text {
+  color: white !important
+}
+
+.cardCases__title {
+  font-size: 8vh;
+  letter-spacing: -.5vh;
+  line-height: 1;
+  margin: 0;
+}
