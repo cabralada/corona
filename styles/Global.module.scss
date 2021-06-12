@@ -1,15 +1,25 @@
+@import 'styles/_mixins.scss';
+
 .pageName {
-  margin-bottom: 5vh !important;
-  margin-top: 10vh !important;
-  font-size: 8vh;
+  margin: 0;
+  padding-bottom: 5vh;
+  padding-top: 5vh;
+  font-size: 4vh;
   line-height: 1;
+  display: flex;
+  flex-direction: column;
+
+  @include tablet() {
+    padding-top: 10vh;
+    flex-direction: column;
+    font-size: 5vh;
+  }
 }
 
 .germanFlag {
   position: fixed;
   top: 0;
   left: 0;
-  background: green;
   display: block;
   width: 30px;
   height: 100vh;
@@ -31,11 +41,11 @@
 }
 
 .germanFlag__red {
-  background: red
+  background: #f44336
 }
 
 .germanFlag__yellow {
-  background: yellow
+  background: #ffeb3b
 }
 
 .alert__no_content {
@@ -47,4 +57,24 @@
 
 .alert__no_content p {
   margin: 0
+}
+
+.configuration {
+  text-align: center;
+  padding-bottom: 5vh;
+
+  @include tablet() {
+    text-align: right;
+  }
+}
+
+.footer {
+  margin-top: 10vh;
+  font-size: 1.4vh;
+  line-height: 1.6;
+  opacity: .5;
+
+  a {
+    text-decoration: underline;
+  }
 }

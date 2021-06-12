@@ -1,0 +1,33 @@
+@mixin noSelection {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+@mixin tablet() {
+  @media (min-width: 700px) {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin xdesktop() {
+  @media (min-width: 1440px) {
+    @content;
+  }
+}
+
+@mixin xxdesktop() {
+  @media (min-width: 1980px) {
+    @content;
+  }
+}

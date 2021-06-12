@@ -1,7 +1,5 @@
 ﻿import Document, { Html, Head, Main, NextScript } from 'next/document'
 import React from 'react';
-// import style from './../styles/Document.module.css';
-
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx)
@@ -15,7 +13,7 @@ class MyDocument extends Document {
         <body>
 					<div style={{
 						maxWidth: 1440,
-						padding: '2vh 5vh',
+						padding: '2vh 4vh 2vh calc(5vh + 5px)',
 						margin: '0 auto'
 					}}>
 						<Main />
