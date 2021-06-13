@@ -1,7 +1,12 @@
 ﻿import axios from "axios";
 
-export const fetcher = (url: string) => axios.get(url).then(res => res.data)
+export const URL_HISTORY_GERAL_CASES = 'https://api.corona-zahlen.org/germany/history/cases/';
+export const URL_HISTORY_GERAL_DEATHS = 'https://api.corona-zahlen.org/germany/history/deaths/';
+export const URL_HISTORY_GERAL_RECOVERED = 'https://api.corona-zahlen.org/germany/history/recovered/';
 
+export const URL_HISTORY_DISTRICT = 'https://api.corona-zahlen.org/districts/';
+
+export const fetcher = (url: string) => axios.get(url).then(res => res.data)
 
 export const kFormatter = (num: number) => {
 	if (Math.abs(num) > 999999) {

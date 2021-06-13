@@ -37,7 +37,6 @@ function MyApp({ Component, pageProps }: AppProps) {
             <div>
               <WarningOutlined style={{ fontSize: 40 }} />
             </div>
-            <p>{data.error.message}</p>
             <p><strong>API is down!</strong></p>
           </Card>
         </Grid>
@@ -102,7 +101,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               </strong>
             Report
           </h1>
-          {period && (
+          {period > 0 && (
             <Alert variant="filled" severity="info" style={{
               marginBottom: 20
             }}>

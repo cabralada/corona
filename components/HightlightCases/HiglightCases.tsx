@@ -17,8 +17,6 @@ const HiglightCases = ({
 
 	const labelText_total = "Number of";
 
-	console.log(cases, deaths, recovered);
-
 	return (
 		<>
 			<Grid item xs={12} sm={4}>
