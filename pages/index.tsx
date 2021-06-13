@@ -6,18 +6,18 @@ import useSWR from 'swr'
 import HiglightCases from '../components/HightlightCases/HiglightCases'
 import Region from '../components/Region/Region'
 import TimeFrame from '../components/TimeFrame/TimeFrame'
-import { fetcher, URL_HISTORY_DISTRICT, URL_HISTORY_GERAL_CASES, URL_HISTORY_GERAL_DEATHS, URL_HISTORY_GERAL_RECOVERED } from '../utility/utility'
+import { fetcher, sharedReduceCases, sharedReduceDeaths, sharedReduceRecovered, URL_HISTORY_DISTRICT, URL_HISTORY_GERAL_CASES, URL_HISTORY_GERAL_DEATHS, URL_HISTORY_GERAL_GERMANY, URL_HISTORY_GERAL_RECOVERED } from '../utility/utility'
 import styles from './../styles/Home.module.scss'
 
 const Home = (props: OwnProps) => {
-  const { data, error } = useSWR('https://api.corona-zahlen.org/germany', fetcher);
+  const { data, error } = useSWR(URL_HISTORY_GERAL_GERMANY, fetcher);
   const [period, setPeriod] = useState(0);
-  const [district, setDistrict] = useState({name: '', id: ''});
+  const [district, setDistrict] = useState({ name: '', id: '' });
   const [deutchlandData, setDeutchlandData] = useState({ cases: 0, deaths: 0, recovered: 0 });
-  const [selectedData, setSelectedData] = useState({ title: '', cases:0, deaths:0, recovered:0 });
+  const [selectedData, setSelectedData] = useState({ title: '', cases: 0, deaths: 0, recovered: 0 });
   const [disableTimeFrameButtons, setDisableTimeFrameButtons] = useState(false);
 
-  const hightLightGeneralData = typeof district.name === 'undefined' || district.name === '';
+  const hightLightGeneralData = typeof district.name === 'undefined' || district.name === '';
 
   if (error) {
     return (
@@ -74,7 +74,7 @@ const Home = (props: OwnProps) => {
   }
 
   const getDistrictInformation = async () => {
-    const districtData = await axios.get(`https://api.corona-zahlen.org/districts/${district.id}`)
+    const districtData = await axios.get(`${URL_HISTORY_DISTRICT}${district.id}`)
     const fetchInfo = districtData.data.data[district.id];
 
     setSelectedData({
@@ -93,22 +93,18 @@ const Home = (props: OwnProps) => {
     const periodDeathsData = await axios.get(`${URL_HISTORY_GERAL_DEATHS}${period}`);
     const periodRecoveredData = await axios.get(`${URL_HISTORY_GERAL_RECOVERED}${period}`);
 
-    const reducerCases = (acc: number, item: number) => acc + item.cases;
-    const reducerDeaths = (acc: number, item: number) => acc + item.deaths;
-    const reducerRecovered = (acc: number, item: number) => acc + item.recovered;
-
     {
       period === 0
         ? setDeutchlandData({
-            cases: data.cases,
-            deaths: data.deaths,
-            recovered: data.recovered,
-          })
+          cases: data.cases,
+          deaths: data.deaths,
+          recovered: data.recovered,
+        })
         : setDeutchlandData({
-            cases: periodCasesData.data.data.reduce(reducerCases, 0),
-            deaths: periodDeathsData.data.data.reduce(reducerDeaths, 0),
-            recovered: periodRecoveredData.data.data.reduce(reducerRecovered, 0),
-          })
+          cases: periodCasesData.data.data.reduce(sharedReduceCases, 0),
+          deaths: periodDeathsData.data.data.reduce(sharedReduceDeaths, 0),
+          recovered: periodRecoveredData.data.data.reduce(sharedReduceRecovered, 0),
+        })
     }
 
     setDisableTimeFrameButtons(false);
@@ -121,17 +117,13 @@ const Home = (props: OwnProps) => {
     const periodDeathsData = await axios.get(`${URL_HISTORY_DISTRICT}${district.id}/history/deaths/${period}`);
     const periodRecoveredData = await axios.get(`${URL_HISTORY_DISTRICT}${district.id}/history/recovered/${period}`);
 
-    const reducerCases = (acc: number, item: number) => acc + item.cases;
-    const reducerDeaths = (acc: number, item: number) => acc + item.deaths;
-    const reducerRecovered = (acc: number, item: number) => acc + item.recovered;
-
     {
       period > 0
         ? setSelectedData({
           title: district.name,
-          cases: periodCasesData.data.data[district.id].history.reduce(reducerCases, 0),
-          deaths: periodDeathsData.data.data[district.id].history.reduce(reducerDeaths, 0),
-          recovered: periodRecoveredData.data.data[district.id].history.reduce(reducerRecovered, 0),
+          cases: periodCasesData.data.data[district.id].history.reduce(sharedReduceCases, 0),
+          deaths: periodDeathsData.data.data[district.id].history.reduce(sharedReduceDeaths, 0),
+          recovered: periodRecoveredData.data.data[district.id].history.reduce(sharedReduceRecovered, 0),
         })
         : getDistrictInformation();
     }
@@ -155,16 +147,25 @@ const Home = (props: OwnProps) => {
     console.log('useEffect', period, district.name)
   }, [period, district])
 
-
   return (
     <>
-      {/* {deutchlandData.cases} */}
       <Grid container spacing={2}>
         <HiglightCases
-          cases={hightLightGeneralData ? deutchlandData.cases : selectedData.cases}
-          deaths={hightLightGeneralData ? deutchlandData.deaths: selectedData.deaths}
-          recovered={hightLightGeneralData ? deutchlandData.recovered: selectedData.recovered}
-
+          cases={
+            hightLightGeneralData
+              ? deutchlandData.cases
+              : selectedData.cases
+          }
+          deaths={
+            hightLightGeneralData
+              ? deutchlandData.deaths
+              : selectedData.deaths
+          }
+          recovered={
+            hightLightGeneralData
+              ? deutchlandData.recovered
+              : selectedData.recovered
+          }
         />
       </Grid>
       <div style={{
@@ -177,7 +178,10 @@ const Home = (props: OwnProps) => {
             <Region districtName={handleDistrict} />
           </Grid>
           <Grid item xs={12} md={6} lg={5}>
-            <TimeFrame getPeriod={handleTimeFrame} disabledButton={disableTimeFrameButtons}/>
+            <TimeFrame
+              getPeriod={handleTimeFrame}
+              disabledButton={disableTimeFrameButtons}
+            />
           </Grid>
         </Grid>
       </div>

@@ -1,5 +1,6 @@
 ﻿import axios from "axios";
 
+export const URL_HISTORY_GERAL_GERMANY = 'https://api.corona-zahlen.org/germany';
 export const URL_HISTORY_GERAL_CASES = 'https://api.corona-zahlen.org/germany/history/cases/';
 export const URL_HISTORY_GERAL_DEATHS = 'https://api.corona-zahlen.org/germany/history/deaths/';
 export const URL_HISTORY_GERAL_RECOVERED = 'https://api.corona-zahlen.org/germany/history/recovered/';
@@ -19,3 +20,7 @@ export const kFormatter = (num: number) => {
 }
 
 export const dataFormat = (data: string) => new Date(data).toLocaleString();
+
+export const sharedReduceCases = (acc: number, item: any) => acc + item.cases;
+export const sharedReduceDeaths = (acc: number, item: any) => acc + item.deaths;
+export const sharedReduceRecovered = (acc: number, item: any) => acc + item.recovered;

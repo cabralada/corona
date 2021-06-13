@@ -4,12 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { Card, Chip, CircularProgress, Grid, Typography } from '@material-ui/core'
 import styles from '../styles/Global.module.scss'
 import useSWR from 'swr'
-import { dataFormat, fetcher } from '../utility/utility'
+import { dataFormat, fetcher, URL_HISTORY_GERAL_GERMANY } from '../utility/utility'
 import { WarningOutlined } from '@material-ui/icons'
 import { Alert } from '@material-ui/lab'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { data, error } = useSWR('https://api.corona-zahlen.org/germany', fetcher)
+  const { data, error } = useSWR(URL_HISTORY_GERAL_GERMANY, fetcher)
   const [currentDate, setCurrentDate] = useState('');
   const [region, setRegion] = useState('');
   const [period, setPeriod] = useState(null);
