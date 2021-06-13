@@ -5,19 +5,17 @@
 .cardCases__cases {
   padding: 1rem;
   background-color: #ff9800 !important;
-  /* box-shadow: inset 0 0 0 10px rgba(0, 0, 0, .1) !important; */
-  /* border: 5px solid white !important; */
   position: relative;
 
   display: flex;
   flex-direction: row;
-
   justify-content: center;
   align-items: center;
 
   @include tablet() {
     flex-direction: column;
     padding: 2rem 0;
+    margin-bottom: 1rem;
   }
 }
 

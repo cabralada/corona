@@ -1,0 +1,11 @@
+@import 'styles/_mixins.scss';
+
+.Region__container {
+  margin: 0;
+  background: white;
+  // padding: 1rem;
+
+  @include tablet() {
+    // margin: 2rem 0 0;
+  }
+}

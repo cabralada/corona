@@ -1,7 +1,6 @@
-﻿import { Grid, Typography, Card } from "@material-ui/core";
-import { FavoriteRounded } from "@material-ui/icons";
+﻿import { Grid, Card } from "@material-ui/core"
 import React from "react"
-import { kFormatter } from "../../utility/utility";
+import { kFormatter } from "../../utility/utility"
 import styles from './HightlightCases.module.scss'
 
 type HiglightCasesProps = {
@@ -16,7 +15,7 @@ const HiglightCases = ({
 	recovered
 }: HiglightCasesProps) => {
 
-	const labelText_total = "Total number of";
+	const labelText_total = "Number of";
 
 	return (
 		<>

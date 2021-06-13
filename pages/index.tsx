@@ -1,14 +1,20 @@
 import { Card, CircularProgress, CardContent, Grid, Paper, Typography, Chip } from '@material-ui/core'
 import { WarningOutlined } from '@material-ui/icons'
-import Head from 'next/head'
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import HiglightCases from '../components/HightlightCases/HiglightCases'
-import { dataFormat, fetcher } from '../utility/utility'
+import Region from '../components/Region/Region'
+import TimeFrame from '../components/TimeFrame/TimeFrame'
+import { fetcher } from '../utility/utility'
 import styles from './../styles/Home.module.scss'
 
-const Home = () => {
-  const { data, error } = useSWR('https://api.corona-zahlen.org/germany', fetcher)
+const Home = (props: OwnProps) => {
+  const { data, error } = useSWR('https://api.corona-zahlen.org/germany', fetcher);
+  const [period, setPeriod] = useState(null);
+  const [district, setDistrict] = useState({name: '', id: ''});
+  const [deutchlandData, setDeutchlandData] = useState({ cases:0, deaths:0, recovered:0 })
+  const [selectedData, setSelectedData] = useState({ title: '', cases:0, deaths:0, recovered:0 })
 
   if (error) {
     return (
@@ -51,14 +57,75 @@ const Home = () => {
     );
   }
 
+  const handleDistrict = (name: string, id: string) => {
+    const selectedDistrict = { name, id }
+    setDistrict(selectedDistrict);
+  }
+
+  const handleTimeFrame = (value: number) => {
+    setPeriod(value);
+  }
+
+  const handleSelectedData = (name: string) => {
+    props.handleRegion(name);
+  }
+
+  useEffect(() => {
+    const initData = {
+      cases: data.cases,
+      deaths: data.deaths,
+      recovered: data.recovered,
+    }
+    setDeutchlandData(initData)
+  }, [])
+
+  useEffect(() => {
+    const fetchMyAPI = async () => {
+      const districtData = await axios.get(`https://api.corona-zahlen.org/districts/${district.id}`)
+      const fetchInfo = districtData.data.data[district.id];
+
+      setSelectedData({
+        title: district.name,
+        cases: fetchInfo.cases,
+        deaths: fetchInfo.deaths,
+        recovered: fetchInfo.recovered,
+      })
+    }
+
+    district.name && fetchMyAPI();
+
+    handleSelectedData(district.name);
+
+    console.log('RUNNED', period, district);
+    console.log('deutchlandData', deutchlandData);
+    console.log('district', district);
+  }, [period, district])
+
   return (
-    <Grid container spacing={2}>
-      <HiglightCases
-        cases={data.cases}
-        deaths={data.deaths}
-        recovered={data.recovered}
-      />
-    </Grid>
+    <>
+      {deutchlandData.cases}
+      <Grid container spacing={2}>
+        <HiglightCases
+          cases={district.name === '' ? deutchlandData.cases : selectedData.cases}
+          deaths={district.name === '' ? deutchlandData.deaths: selectedData.deaths}
+          recovered={district.name === '' ? deutchlandData.recovered: selectedData.recovered}
+        />
+      </Grid>
+      <div style={{
+        marginTop: '5vh',
+        padding: '1rem',
+        background: 'white'
+      }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6} lg={7}>
+            <Region districtName={handleDistrict} />
+          </Grid>
+          <Grid item xs={12} md={6} lg={5}>
+            <TimeFrame getPeriod={handleTimeFrame} />
+          </Grid>
+        </Grid>
+      </div>
+    </>
   )
 }
 

@@ -14,6 +14,36 @@
     flex-direction: column;
     font-size: 5vh;
   }
+
+  strong {
+    font-weight: 600;
+  }
+}
+
+.pageName__region {
+  color: #989898;
+  display: block;
+
+  &:before {
+    content: '(';
+
+    @include tablet() {
+      content: ', '
+    }
+  }
+
+  &:after {
+    content: ')';
+
+    @include tablet() {
+      content: ''
+    }
+  }
+
+  @include tablet() {
+    font-size: 50%;
+    display: inline;
+  }
 }
 
 .germanFlag {

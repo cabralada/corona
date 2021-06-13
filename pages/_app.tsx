@@ -10,12 +10,10 @@ import { WarningOutlined } from '@material-ui/icons'
 function MyApp({ Component, pageProps }: AppProps) {
   const { data, error } = useSWR('https://api.corona-zahlen.org/germany', fetcher)
   const [currentDate, setCurrentDate] = useState('');
-
-  console.log('TEST', data, error)
+  const [region, setRegion] = useState('');
 
   useEffect(() => {
     if (data && !data.error) {
-      console.log(data.error)
       setCurrentDate(dataFormat(data.meta.lastCheckedForUpdate));
     }
   }, [data])
@@ -62,6 +60,11 @@ function MyApp({ Component, pageProps }: AppProps) {
     </Grid>
   )
 
+  const handleRegion = (name: string) => {
+    console.log('handleRegion', name);
+    setRegion(name);
+  }
+
   return (
     <>
       <div className={styles.germanFlag}>
@@ -84,14 +87,16 @@ function MyApp({ Component, pageProps }: AppProps) {
         justify="center"
         alignItems="flex-end"
       >
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <h1 className={styles.pageName}>
-            Corona <strong>Germany</strong> report
+            Corona <strong>Germany{region
+              ? <span className={styles.pageName__region}>{`${region}`}</span>
+              : ''}</strong> Report
           </h1>
         </Grid>
       </Grid>
 
-      <Component {...pageProps} />
+      <Component handleRegion={handleRegion} {...pageProps} />
 
       {
         data.meta && (
