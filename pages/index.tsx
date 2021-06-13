@@ -13,7 +13,7 @@ const Home = (props: OwnProps) => {
   const { data, error } = useSWR('https://api.corona-zahlen.org/germany', fetcher);
   const [period, setPeriod] = useState(null);
   const [district, setDistrict] = useState({name: '', id: ''});
-  const [deutchlandData, setDeutchlandData] = useState({ cases:0, deaths:0, recovered:0 })
+  const [deutchlandData, setDeutchlandData] = useState({ cases: 0, deaths: 0, recovered: 0 })
   const [selectedData, setSelectedData] = useState({ title: '', cases:0, deaths:0, recovered:0 })
 
   if (error) {
@@ -66,8 +66,9 @@ const Home = (props: OwnProps) => {
     setPeriod(value);
   }
 
-  const handleSelectedData = (name: string) => {
+  const handleSelectedData = (name: string, days: number) => {
     props.handleRegion(name);
+    props.handlePeriod(days);
   }
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const Home = (props: OwnProps) => {
   }, [])
 
   useEffect(() => {
-    const fetchMyAPI = async () => {
+    const getDistrictInformation = async () => {
       const districtData = await axios.get(`https://api.corona-zahlen.org/districts/${district.id}`)
       const fetchInfo = districtData.data.data[district.id];
 
@@ -91,24 +92,24 @@ const Home = (props: OwnProps) => {
         recovered: fetchInfo.recovered,
       })
     }
+    district.name && getDistrictInformation();
+    handleSelectedData(district.name, period);
+    console.log(period)
 
-    district.name && fetchMyAPI();
-
-    handleSelectedData(district.name);
-
-    console.log('RUNNED', period, district);
-    console.log('deutchlandData', deutchlandData);
-    console.log('district', district);
   }, [period, district])
+
+  const hightLightInitData = typeof district.name === 'undefined' || district.name === '';
+  console.log('district.name', district.name)
 
   return (
     <>
-      {deutchlandData.cases}
+      {/* {deutchlandData.cases} */}
       <Grid container spacing={2}>
         <HiglightCases
-          cases={district.name === '' ? deutchlandData.cases : selectedData.cases}
-          deaths={district.name === '' ? deutchlandData.deaths: selectedData.deaths}
-          recovered={district.name === '' ? deutchlandData.recovered: selectedData.recovered}
+          cases={hightLightInitData ? deutchlandData.cases : selectedData.cases}
+          deaths={hightLightInitData ? deutchlandData.deaths: selectedData.deaths}
+          recovered={hightLightInitData ? deutchlandData.recovered: selectedData.recovered}
+
         />
       </Grid>
       <div style={{

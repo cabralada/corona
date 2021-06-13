@@ -13,7 +13,7 @@ class MyDocument extends Document {
         <body>
 					<div style={{
 						maxWidth: 1440,
-						padding: '2vh 4vh 2vh calc(5vh + 5px)',
+						padding: '2vh calc(5vw + 15px) 2vh calc(10vw + 15px)',
 						margin: '0 auto'
 					}}>
 						<Main />

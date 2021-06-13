@@ -48,17 +48,17 @@
 }
 
 .cardCases__title {
-  font-size: 5vh;
+  font-size: 300%;
   letter-spacing: -.5vh;
   line-height: 1;
   margin: 0;
   font-weight: 600;
 
   @include tablet() {
-    font-size: 5vh;
+    font-size: 350%;
   }
 
   @include desktop() {
-    font-size: 6vh;
+    font-size: 500%;
   }
 }

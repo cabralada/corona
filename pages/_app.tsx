@@ -6,11 +6,13 @@ import styles from '../styles/Global.module.scss'
 import useSWR from 'swr'
 import { dataFormat, fetcher } from '../utility/utility'
 import { WarningOutlined } from '@material-ui/icons'
+import { Alert } from '@material-ui/lab'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { data, error } = useSWR('https://api.corona-zahlen.org/germany', fetcher)
   const [currentDate, setCurrentDate] = useState('');
   const [region, setRegion] = useState('');
+  const [period, setPeriod] = useState(null);
 
   useEffect(() => {
     if (data && !data.error) {
@@ -61,8 +63,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   )
 
   const handleRegion = (name: string) => {
-    console.log('handleRegion', name);
     setRegion(name);
+  }
+
+  const handlePeriod = (days: number) => {
+    setPeriod(days);
   }
 
   return (
@@ -89,14 +94,29 @@ function MyApp({ Component, pageProps }: AppProps) {
       >
         <Grid item xs={12}>
           <h1 className={styles.pageName}>
-            Corona <strong>Germany{region
-              ? <span className={styles.pageName__region}>{`${region}`}</span>
-              : ''}</strong> Report
+            Corona
+              <strong>
+                Germany{region
+                          ? <span className={styles.pageName__region}>{`${region}`}</span>
+                          : ''}
+              </strong>
+            Report
           </h1>
+          {period && (
+            <Alert variant="filled" severity="info" style={{
+              marginBottom: 20
+            }}>
+              {`From lastest ${period} days`}
+            </Alert>
+          )}
         </Grid>
       </Grid>
 
-      <Component handleRegion={handleRegion} {...pageProps} />
+      <Component
+        handlePeriod={handlePeriod}
+        handleRegion={handleRegion}
+        {...pageProps}
+      />
 
       {
         data.meta && (
