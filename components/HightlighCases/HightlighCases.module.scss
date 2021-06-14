@@ -1,7 +1,7 @@
 @import 'styles/_mixins.scss';
 
 .cardCases__recovered,
-.cardCases__death,
+.cardCases__deaths,
 .cardCases__cases {
   padding: 1rem;
   background-color: #ff9800 !important;
@@ -23,7 +23,7 @@
   background-color: #689f38 !important;
 }
 
-.cardCases__death {
+.cardCases__deaths {
   background-color: #ff5722 !important;
 }
 

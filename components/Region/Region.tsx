@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { fetcher } from '../../utility/utility';
+import { fetcher, URL_HISTORY_DISTRICT } from '../../utility/utility';
 import styles from './Region.module.scss';
 import useSWR from 'swr';
 
@@ -12,7 +12,7 @@ type RegionProps = {
 const Region = ({districtName}: RegionProps) => {
 	const [districts, setDistricts] = useState([]);
 	const [district, setDistrict] = useState({});
-	const { data, error } = useSWR('https://api.corona-zahlen.org/districts', fetcher)
+	const { data, error } = useSWR(URL_HISTORY_DISTRICT, fetcher)
 
 	useEffect(() => {
 		let listDistricts: any = [];

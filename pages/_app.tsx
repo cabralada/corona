@@ -1,12 +1,13 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import React, { useEffect, useState } from 'react'
-import { Card, Chip, CircularProgress, Grid, Typography } from '@material-ui/core'
+import { Chip, Grid, Typography } from '@material-ui/core'
 import styles from '../styles/Global.module.scss'
 import useSWR from 'swr'
 import { dataFormat, fetcher, URL_HISTORY_GERAL_GERMANY } from '../utility/utility'
-import { WarningOutlined } from '@material-ui/icons'
 import { Alert } from '@material-ui/lab'
+import LoadingProgress from '../components/LoadingProgress/LoadingProgress'
+import WarningApi from '../components/WarningApi/WarningApi'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { data, error } = useSWR(URL_HISTORY_GERAL_GERMANY, fetcher)
@@ -18,48 +19,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (data && !data.error) {
       setCurrentDate(dataFormat(data.meta.lastCheckedForUpdate));
     }
-  }, [data])
+  }, [])
 
-  if (error) {
-    return (
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-        spacing={3}
-        style={{
-          height: '80vh'
-        }}
-      >
-        <Grid item>
-          <Card className={styles.alert__no_content}>
-            <div>
-              <WarningOutlined style={{ fontSize: 40 }} />
-            </div>
-            <p><strong>API is down!</strong></p>
-          </Card>
-        </Grid>
-      </Grid>
-    );
-  }
-
-  if (!data) return (
-    <Grid
-      container
-      direction="row"
-      justify="center"
-      alignItems="center"
-      spacing={3}
-      style={{
-        height: '80vh'
-      }}
-    >
-      <Grid item>
-        <CircularProgress />
-      </Grid>
-    </Grid>
-  )
+  if (error) return <WarningApi />
+  if (!data) return <LoadingProgress />
 
   const handleRegion = (name: string) => {
     setRegion(name);
