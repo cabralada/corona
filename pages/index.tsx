@@ -2,7 +2,7 @@ import { Grid, } from '@material-ui/core'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
-import HiglighCases from '../components/HightlighCases/HiglighCases'
+import HighlightCases from '../components/HighlightCases/HighlightCases'
 import LoadingProgress from '../components/LoadingProgress/LoadingProgress'
 import Region from '../components/Region/Region'
 import TimeFrame from '../components/TimeFrame/TimeFrame'
@@ -19,7 +19,7 @@ import {
   URL_HISTORY_GENERAL_RECOVERED,
 } from '../utility/utility'
 
-const Home = (props: OwnProps) => {
+const Home = (props: any) => {
   const [period, setPeriod] = useState(0);
   const [district, setDistrict] = useState({ name: '', id: '' });
   const [deutchlandData, setDeutchlandData] = useState({});
@@ -127,7 +127,7 @@ const Home = (props: OwnProps) => {
   return (
     <>
       <Grid container spacing={2}>
-        <HiglighCases
+        <HighlightCases
           cases={
             hightLightGeneralData
               ? deutchlandData.cases
