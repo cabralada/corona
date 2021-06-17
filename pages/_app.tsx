@@ -4,22 +4,23 @@ import React, { useEffect, useState } from 'react'
 import { Chip, Grid, Typography } from '@material-ui/core'
 import styles from '../styles/Global.module.scss'
 import useSWR from 'swr'
-import { dataFormat, fetcher, URL_HISTORY_GERAL_GERMANY } from '../utility/utility'
+import { dataFormat, fetcher, URL_HISTORY_GENERAL_GERMANY } from '../utility/utility'
 import { Alert } from '@material-ui/lab'
 import LoadingProgress from '../components/LoadingProgress/LoadingProgress'
 import WarningApi from '../components/WarningApi/WarningApi'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { data, error } = useSWR(URL_HISTORY_GERAL_GERMANY, fetcher)
+  const { data, error } = useSWR(URL_HISTORY_GENERAL_GERMANY, fetcher)
   const [currentDate, setCurrentDate] = useState('');
   const [region, setRegion] = useState('');
   const [period, setPeriod] = useState(null);
 
   useEffect(() => {
     if (data && !data.error) {
+      console.log(data);
       setCurrentDate(dataFormat(data.meta.lastCheckedForUpdate));
     }
-  }, [])
+  }, [data])
 
   if (error) return <WarningApi />
   if (!data) return <LoadingProgress />
@@ -64,7 +65,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               </strong>
             Report
           </h1>
-          {period > 0 && (
+          {!!period && period > 0 && (
             <Alert variant="filled" severity="info" style={{
               marginBottom: 20
             }}>

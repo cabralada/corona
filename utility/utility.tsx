@@ -1,11 +1,11 @@
 ﻿import axios from "axios";
 
-export const URL_HISTORY_GERAL_GERMANY = 'https://api.corona-zahlen.org/germany';
-export const URL_HISTORY_GERAL_CASES = 'https://api.corona-zahlen.org/germany/history/cases/';
-export const URL_HISTORY_GERAL_DEATHS = 'https://api.corona-zahlen.org/germany/history/deaths/';
-export const URL_HISTORY_GERAL_RECOVERED = 'https://api.corona-zahlen.org/germany/history/recovered/';
-
-export const URL_HISTORY_DISTRICT = 'https://api.corona-zahlen.org/districts/';
+export const URL_BASE = "http://localhost:8080";
+export const URL_HISTORY_GENERAL_GERMANY = `${URL_BASE}/germany`;
+export const URL_HISTORY_GENERAL_CASES = `${URL_BASE}/germany/history/cases/`;
+export const URL_HISTORY_GENERAL_DEATHS = `${URL_BASE}/germany/history/deaths/`;
+export const URL_HISTORY_GENERAL_RECOVERED = `${URL_BASE}/germany/history/recovered/`;
+export const URL_HISTORY_DISTRICT = `${URL_BASE}/districts/`;
 
 export const fetcher = (url: string) => axios.get(url).then(res => res.data)
 

@@ -13,10 +13,10 @@ import {
   sharedReduceDeaths,
   sharedReduceRecovered,
   URL_HISTORY_DISTRICT,
-  URL_HISTORY_GERAL_CASES,
-  URL_HISTORY_GERAL_DEATHS,
-  URL_HISTORY_GERAL_GERMANY,
-  URL_HISTORY_GERAL_RECOVERED,
+  URL_HISTORY_GENERAL_CASES,
+  URL_HISTORY_GENERAL_DEATHS,
+  URL_HISTORY_GENERAL_GERMANY,
+  URL_HISTORY_GENERAL_RECOVERED,
 } from '../utility/utility'
 
 const Home = (props: OwnProps) => {
@@ -26,7 +26,7 @@ const Home = (props: OwnProps) => {
   const [selectedData, setSelectedData] = useState({ title: '', cases: 0, deaths: 0, recovered: 0 });
   const [disableTimeFrameButtons, setDisableTimeFrameButtons] = useState(false);
 
-  const { data, error } = useSWR(URL_HISTORY_GERAL_GERMANY, fetcher);
+  const { data, error } = useSWR(URL_HISTORY_GENERAL_GERMANY, fetcher);
   if (error) return <WarningApi />
   if (!data) return <LoadingProgress />
 
@@ -62,9 +62,9 @@ const Home = (props: OwnProps) => {
     if (period > 0) {
       setDisableTimeFrameButtons(true);
 
-      const periodCasesData = await axios.get(`${URL_HISTORY_GERAL_CASES}${period}`);
-      const periodDeathsData = await axios.get(`${URL_HISTORY_GERAL_DEATHS}${period}`);
-      const periodRecoveredData = await axios.get(`${URL_HISTORY_GERAL_RECOVERED}${period}`);
+      const periodCasesData = await axios.get(`${URL_HISTORY_GENERAL_CASES}${period}`);
+      const periodDeathsData = await axios.get(`${URL_HISTORY_GENERAL_DEATHS}${period}`);
+      const periodRecoveredData = await axios.get(`${URL_HISTORY_GENERAL_RECOVERED}${period}`);
 
       setDeutchlandData({
         cases: periodCasesData.data.data.reduce(sharedReduceCases, 0),
