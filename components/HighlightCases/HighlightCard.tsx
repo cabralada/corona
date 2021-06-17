@@ -15,7 +15,7 @@ const HighlightCard = ({value, name}:HighlightCardProps) => {
 		<Grid item xs={12} sm={4}>
 			<Card className={styles[`cardCases__${name.toLowerCase()}`]}>
 				<h2 className={styles.cardCases__title}>
-					<strong>{kFormatter(value)}</strong>
+					<strong data-jest="mockNumberFormat">{kFormatter(value)}</strong>
 				</h2>
 				<p className={styles.cardCases__text}>
 					{labelText_total} <strong>{name}</strong>
