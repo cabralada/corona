@@ -30,10 +30,10 @@ docker compose up
 
 ## Future plans
 
-- :exclamation: Chart with more informations
-- :o: Detail information by days
-- :heavy_check_mark: Explore more countries :earth_americas:
-- :heavy_check_mark: Collect valid informations
+- :chart: Chart with more informations
+- :chart_with_upwards_trend: Detail information by days
+- :earth_americas: Explore more countries :earth_americas:
+- :newspaper: Collect valid informations
 
 
 
