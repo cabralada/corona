@@ -1,7 +1,11 @@
 ﻿import { Grid, CircularProgress } from "@material-ui/core";
 import React from "react";
 
-const LoadingProgress = () => {
+type LoadingProgressProps = {
+	minHeight?:string;
+}
+
+const LoadingProgress = ({minHeight}: LoadingProgressProps) => {
 	return (
 		<Grid
 			container
@@ -10,7 +14,7 @@ const LoadingProgress = () => {
 			alignItems="center"
 			spacing={3}
 			style={{
-				height: '80vh'
+				minHeight: minHeight ? `${minHeight}vh` : ''
 			}}
 		>
 			<Grid item>

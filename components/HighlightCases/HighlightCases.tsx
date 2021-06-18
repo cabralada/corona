@@ -5,19 +5,21 @@ type HiglighCasesProps = {
 	cases: number;
 	deaths: number;
 	recovered: number;
+	disabledButton: boolean;
 }
 
 const HiglighCases = ({
 	cases,
 	deaths,
-	recovered
+	recovered,
+	disabledButton
 }: HiglighCasesProps) => {
 
 	return (
 		<>
-			<HighlightCard value={cases} name="Cases" />
-			<HighlightCard value={deaths} name="Deaths" />
-			<HighlightCard value={recovered} name="Recovered" />
+			<HighlightCard disabledButton={disabledButton} value={cases} name="Cases" />
+			<HighlightCard disabledButton={disabledButton} value={deaths} name="Deaths" />
+			<HighlightCard disabledButton={disabledButton} value={recovered} name="Recovered" />
 		</>
 	)
 }

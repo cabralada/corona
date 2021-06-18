@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './TimeFrame.module.scss';
 
 type TimeFrameProps = {
-	getPeriod: (days: number | null) => void;
+	getPeriod?: (days: number | null) => void;
 	disabledButton: boolean;
 }
 
@@ -27,13 +27,14 @@ const TimeFrame = ({getPeriod, disabledButton}: TimeFrameProps) => {
 		"4weeks": 7*4,
 	}
 
-	const handlePeriod = (event: Event, newPeriod: string) => {
+	const handlePeriod = (newPeriod: string) => {
 		getPeriod(periodObj[newPeriod])
 
 		if (newPeriod === null || newPeriod === period) {
 			setPeriod('all');
 			return;
 		}
+
 		setPeriod(newPeriod);
 	};
 

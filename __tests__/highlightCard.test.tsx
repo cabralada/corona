@@ -1,5 +1,5 @@
 ﻿import 'jsdom-global/register';
-import { mount, shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import React from 'react';
 import HighlightCard from '../components/HighlightCases/HighlightCard';
 import { kFormatter } from '../utility/utility';

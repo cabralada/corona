@@ -4,6 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { fetcher, URL_HISTORY_DISTRICT } from '../../utility/utility';
 import styles from './Region.module.scss';
 import useSWR from 'swr';
+import LoadingProgress from '../LoadingProgress/LoadingProgress';
 
 type RegionProps = {
 	districtName: (name: string, id: string) => void
@@ -11,7 +12,7 @@ type RegionProps = {
 
 const Region = ({districtName}: RegionProps) => {
 	const [districts, setDistricts] = useState([]);
-	const [district, setDistrict] = useState({});
+	const [district, setDistrict] = useState({title: '', id: ''});
 	const { data, error } = useSWR(URL_HISTORY_DISTRICT, fetcher)
 
 	useEffect(() => {
@@ -35,7 +36,7 @@ const Region = ({districtName}: RegionProps) => {
 		districtName(district.title, district.id);
 	}, [district])
 
-	if (districts.length === 0) return <div>Loading ...</div>;
+	if (districts.length === 0) return <div className={styles.Region__container}><LoadingProgress /></div>;;
 
   return (
 		<div className={styles.Region__container}>

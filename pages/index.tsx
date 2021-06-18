@@ -28,7 +28,7 @@ const Home = (props: any) => {
 
   const { data, error } = useSWR(URL_HISTORY_GENERAL_GERMANY, fetcher);
   if (error) return <WarningApi />
-  if (!data) return <LoadingProgress />
+  if (!data) return <LoadingProgress minHeight="80"/>
 
   const hightLightGeneralData = typeof district.name === 'undefined' || district.name === '';
 
@@ -143,6 +143,8 @@ const Home = (props: any) => {
               ? deutchlandData.recovered
               : selectedData.recovered
           }
+
+          disabledButton={disableTimeFrameButtons}
         />
       </Grid>
       <div style={{
