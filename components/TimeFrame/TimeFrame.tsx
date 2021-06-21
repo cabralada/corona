@@ -8,7 +8,7 @@ type TimeFrameProps = {
 }
 
 type periodObj = {
-	all: null;
+	all: number;
 	"1week": number;
 	"2weeks": number;
 	"3weeks": number;

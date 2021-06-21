@@ -6,7 +6,7 @@ import styles from './HightlighCases.module.scss'
 type HighlightCardProps = {
 	value: number;
 	name: string;
-	disabledButton: boolean;
+	disabledButton?: boolean;
 }
 
 const HighlightCard = ({value, name, disabledButton}:HighlightCardProps) => {

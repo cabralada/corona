@@ -5,7 +5,7 @@ type HiglighCasesProps = {
 	cases: number;
 	deaths: number;
 	recovered: number;
-	disabledButton: boolean;
+	disabledButton?: boolean;
 }
 
 const HiglighCases = ({
