@@ -3,17 +3,11 @@ import React, { useEffect, useState } from 'react';
 import styles from './TimeFrame.module.scss';
 
 type TimeFrameProps = {
-	getPeriod?: (days: number | null) => void;
+	getPeriod?: (days: number) => void;
 	disabledButton: boolean;
 }
 
-type periodObj = {
-	all: number;
-	"1week": number;
-	"2weeks": number;
-	"3weeks": number;
-	"4weeks": number;
-}
+type periodObj = { [key: string]: any }
 
 const TimeFrame = ({getPeriod, disabledButton}: TimeFrameProps) => {
 
@@ -27,8 +21,9 @@ const TimeFrame = ({getPeriod, disabledButton}: TimeFrameProps) => {
 		"4weeks": 7*4,
 	}
 
-	const handlePeriod = (newPeriod: string) => {
-		getPeriod(periodObj[newPeriod])
+	const handlePeriod = (event: React.MouseEvent, newPeriod: string) => {
+		console.log('TEST', newPeriod);
+		getPeriod && getPeriod(periodObj[newPeriod])
 
 		if (newPeriod === null || newPeriod === period) {
 			setPeriod('all');

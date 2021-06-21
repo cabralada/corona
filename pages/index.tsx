@@ -1,5 +1,5 @@
 import { Grid, } from '@material-ui/core'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import React, { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import HighlightCases from '../components/HighlightCases/HighlightCases'
@@ -22,7 +22,7 @@ import {
 const Home = (props: any) => {
   const [period, setPeriod] = useState(0);
   const [district, setDistrict] = useState({ name: '', id: '' });
-  const [deutchlandData, setDeutchlandData] = useState({});
+  const [deutchlandData, setDeutchlandData] = useState({cases: 0, deaths: 0, recovered: 0});
   const [selectedData, setSelectedData] = useState({ title: '', cases: 0, deaths: 0, recovered: 0 });
   const [disableTimeFrameButtons, setDisableTimeFrameButtons] = useState(false);
 
@@ -47,8 +47,10 @@ const Home = (props: any) => {
   }
 
   const getDistrictInformation = async () => {
-    const districtData = await axios.get(`${URL_HISTORY_DISTRICT}${district.id}`)
-    const fetchInfo = districtData.data.data[district.id];
+    const districtData =
+      await axios.get(`${URL_HISTORY_DISTRICT}${district.id}`)
+      .then(res => res.data)
+    const fetchInfo = districtData.data[district.id];
 
     setSelectedData({
       title: district.name,
@@ -62,14 +64,20 @@ const Home = (props: any) => {
     if (period > 0) {
       setDisableTimeFrameButtons(true);
 
-      const periodCasesData = await axios.get(`${URL_HISTORY_GENERAL_CASES}${period}`);
-      const periodDeathsData = await axios.get(`${URL_HISTORY_GENERAL_DEATHS}${period}`);
-      const periodRecoveredData = await axios.get(`${URL_HISTORY_GENERAL_RECOVERED}${period}`);
+      const periodCasesData =
+        await axios.get(`${URL_HISTORY_GENERAL_CASES}${period}`)
+          .then(res => res.data);
+      const periodDeathsData =
+        await axios.get(`${URL_HISTORY_GENERAL_DEATHS}${period}`)
+          .then(res => res.data);
+      const periodRecoveredData =
+        await axios.get(`${URL_HISTORY_GENERAL_RECOVERED}${period}`)
+          .then(res => res.data);
 
       setDeutchlandData({
-        cases: periodCasesData.data.data.reduce(sharedReduceCases, 0),
-        deaths: periodDeathsData.data.data.reduce(sharedReduceDeaths, 0),
-        recovered: periodRecoveredData.data.data.reduce(sharedReduceRecovered, 0),
+        cases: periodCasesData.data.reduce(sharedReduceCases, 0),
+        deaths: periodDeathsData.data.reduce(sharedReduceDeaths, 0),
+        recovered: periodRecoveredData.data.reduce(sharedReduceRecovered, 0),
       })
     } else {
       handleInitData();
@@ -84,19 +92,22 @@ const Home = (props: any) => {
 
       const periodCasesData =
         await axios.get(`${URL_HISTORY_DISTRICT}${district.id}/history/cases/${period}`)
+          .then(res => res.data)
           .catch((error) => {setDisableTimeFrameButtons(false)});
       const periodDeathsData =
         await axios.get(`${URL_HISTORY_DISTRICT}${district.id}/history/deaths/${period}`)
+          .then(res => res.data)
           .catch((error) => {setDisableTimeFrameButtons(false)});
       const periodRecoveredData =
         await axios.get(`${URL_HISTORY_DISTRICT}${district.id}/history/recovered/${period}`)
+          .then(res => res.data)
           .catch((error) => {setDisableTimeFrameButtons(false)});
 
       setSelectedData({
         title: district.name,
-        cases: periodCasesData.data.data[district.id].history.reduce(sharedReduceCases, 0),
-        deaths: periodDeathsData.data.data[district.id].history.reduce(sharedReduceDeaths, 0),
-        recovered: periodRecoveredData.data.data[district.id].history.reduce(sharedReduceRecovered, 0),
+        cases: periodCasesData.data[district.id].history.reduce(sharedReduceCases, 0),
+        deaths: periodDeathsData.data[district.id].history.reduce(sharedReduceDeaths, 0),
+        recovered: periodRecoveredData.data[district.id].history.reduce(sharedReduceRecovered, 0),
       })
     } else {
       getDistrictInformation();

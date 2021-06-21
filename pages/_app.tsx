@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { data, error } = useSWR(URL_HISTORY_GENERAL_GERMANY, fetcher)
   const [currentDate, setCurrentDate] = useState('');
   const [region, setRegion] = useState('');
-  const [period, setPeriod] = useState(null);
+  const [period, setPeriod] = useState(0);
 
   useEffect(() => {
     if (data && !data.error) {
