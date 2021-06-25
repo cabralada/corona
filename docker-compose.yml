@@ -21,3 +21,14 @@ services:
       - REDIS_URL=redis
     networks:
       - redis-net
+  rki-app:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    depends_on:
+      - rki-api
+    networks:
+      - redis-net

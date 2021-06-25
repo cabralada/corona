@@ -1,0 +1,27 @@
+name: test
+on:
+  push:
+    branches:
+    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Corona Stack
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            git clone git@github.com:cabralada/corona.git /www/corona/deploy
+            rm -Rf /www/corona/current/* -Rf
+            mv  /www/corona/deploy/* /www/corona/current/
+            rm /www/corona/deploy/.git* -Rf
+            rm -Rf  /www/corona/deploy/.babelrc
+            rm -Rf  /www/corona/deploy/.editorconfig
+            cd /www/corona/current/
+            docker-compose build --no-cache
+            docker-compose up -d --force-recreate
+          host: ${{ secrets.HOST }}
+          user: root
+          key: ${{ secrets.PRIVATE_KEY}}
+          args: "-tt -vvv"
