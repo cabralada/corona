@@ -180,5 +180,3 @@ const Home = (props: any) => {
 }
 
 export default Home;
-
-
