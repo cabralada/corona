@@ -8,6 +8,7 @@ import { dataFormat, fetcher, URL_HISTORY_GENERAL_GERMANY } from '../utility/uti
 import { Alert } from '@material-ui/lab'
 import LoadingProgress from '../components/LoadingProgress/LoadingProgress'
 import WarningApi from '../components/WarningApi/WarningApi'
+import appInfo from '../package.json'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { data, error } = useSWR(URL_HISTORY_GENERAL_GERMANY, fetcher)
@@ -88,6 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <li>Data provided by <a href={data.meta.info} target="_blank">{data.meta.source}</a></li>
               <li>Last time updated {dataFormat(data.meta.lastUpdate)}</li>
               <li>Last time <strong>Checked</strong> updated {dataFormat(data.meta.lastCheckedForUpdate)}</li>
+              <li>Created by <a href={"http://www.cesarcabral.com"} target="_blank">Cesar Cabral</a> - Using <a href={"http://www.nextjs.com"} target="_blank">NextJs {appInfo.dependencies.next}</a> and <a href={"https://mui.com/"} target="_blank">Material UI {appInfo.dependencies['@mui/material']}</a> </li>
             </ul>
           </footer>
         )
